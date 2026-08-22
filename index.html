@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thashikala Mendis — Data Scientist</title>
+<meta name="description" content="Portfolio of Thashikala Mendis — data scientist working on time-series forecasting, machine learning, and geospatial data.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:        #0B1220;
+    --bg-deep:   #070C16;
+    --card:      #121A2C;
+    --card-hi:   #182335;
+    --line:      rgba(237,234,224,0.09);
+    --line-hi:   rgba(237,234,224,0.16);
+    --ivory:     #EDEAE0;
+    --slate:     #8A94A6;
+    --slate-dim: #5C6577;
+    --gold:      #F4B942;
+    --gold-dim:  #8A6A28;
+    --teal:      #4FD1C5;
+    --max: 980px;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:var(--bg);
+    color:var(--ivory);
+    font-family:'Source Serif 4', Georgia, serif;
+    font-weight:400;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  ::selection{ background:var(--gold); color:var(--bg-deep); }
+
+  h1,h2,h3,.display{
+    font-family:'Space Grotesk', sans-serif;
+    letter-spacing:-0.01em;
+    color:var(--ivory);
+  }
+  .mono{ font-family:'JetBrains Mono', monospace; letter-spacing:0.02em; }
+  a{ color:inherit; text-decoration:none; }
+  .wrap{ max-width:var(--max); margin:0 auto; padding:0 28px; }
+  button{ font:inherit; cursor:pointer; background:none; border:none; color:inherit; }
+
+  /* ---------- Top nav ---------- */
+  nav{
+    position:fixed; top:0; left:0; right:0; z-index:60;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:20px 32px;
+    background:linear-gradient(to bottom, rgba(7,12,22,0.92), rgba(7,12,22,0));
+  }
+  .nav-mark{ font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:15px; letter-spacing:0.02em; }
+  .nav-mark span{ color:var(--gold); }
+  .nav-cta{
+    font-family:'JetBrains Mono',monospace; font-size:12px; text-transform:uppercase; letter-spacing:0.08em;
+    border:1px solid var(--line-hi); padding:9px 16px; border-radius:2px; color:var(--slate);
+    transition:border-color .2s ease, color .2s ease;
+  }
+  .nav-cta:hover{ border-color:var(--gold); color:var(--gold); }
+
+  /* ---------- Hero ---------- */
+  .hero{ position:relative; min-height:100svh; display:flex; flex-direction:column; justify-content:center; overflow:hidden; }
+  #nightlights{ position:absolute; inset:0; width:100%; height:100%; display:block; }
+  .hero-veil{
+    position:absolute; inset:0;
+    background:radial-gradient(ellipse 80% 60% at 50% 40%, rgba(11,18,32,0) 0%, rgba(11,18,32,0.55) 70%, rgba(7,12,22,0.92) 100%);
+    pointer-events:none;
+  }
+  .hero-content{ position:relative; z-index:2; padding:0 28px; max-width:var(--max); margin:0 auto; width:100%; }
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--teal); display:flex; align-items:center; gap:10px; margin-bottom:22px;
+  }
+  .eyebrow::before{ content:''; width:7px; height:7px; border-radius:50%; background:var(--gold); box-shadow:0 0 8px 2px rgba(244,185,66,0.7); }
+  .hero h1{ font-size:clamp(38px, 7vw, 72px); font-weight:600; line-height:1.04; margin-bottom:20px; }
+  .hero h1 em{
+    font-style:normal;
+    background:linear-gradient(100deg, var(--gold), #ffd98a 60%, var(--gold));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .hero p{ font-size:clamp(16px,2.1vw,19px); color:var(--slate); max-width:580px; margin-bottom:34px; }
+  .hero-actions{ display:flex; flex-wrap:wrap; gap:14px; align-items:center; }
+  .btn{
+    font-family:'JetBrains Mono',monospace; font-size:13px; letter-spacing:0.03em; padding:13px 22px;
+    border-radius:3px; display:inline-flex; align-items:center; gap:8px;
+    transition:transform .2s ease, background .2s ease, border-color .2s ease;
+  }
+  .btn-solid{ background:var(--gold); color:var(--bg-deep); font-weight:500; }
+  .btn-solid:hover{ transform:translateY(-2px); background:#ffc862; }
+  .btn-ghost{ border:1px solid var(--line-hi); color:var(--ivory); }
+  .btn-ghost:hover{ border-color:var(--teal); color:var(--teal); transform:translateY(-2px); }
+
+  .scroll-cue{
+    position:absolute; bottom:30px; left:50%; transform:translateX(-50%); z-index:2;
+    font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--slate-dim);
+    text-transform:uppercase; letter-spacing:0.14em; display:flex; flex-direction:column; align-items:center; gap:10px;
+  }
+  .scroll-cue .stem{ width:1px; height:30px; background:linear-gradient(var(--gold), transparent); animation:stemPulse 2.4s ease-in-out infinite; }
+  @keyframes stemPulse{ 0%,100%{ opacity:.3; } 50%{ opacity:1; } }
+
+  /* ---------- Tab app ---------- */
+  .tabapp{ border-top:1px solid var(--line); }
+  .tabbar{
+    position:sticky; top:0; z-index:40;
+    display:flex; gap:2px; overflow-x:auto;
+    background:rgba(7,12,22,0.94); backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+    scrollbar-width:none;
+  }
+  .tabbar::-webkit-scrollbar{ display:none; }
+  .tabbar-inner{ display:flex; max-width:var(--max); margin:0 auto; width:100%; padding:0 28px; }
+  .tab-btn{
+    font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:0.05em; text-transform:uppercase;
+    padding:20px 18px; color:var(--slate-dim); white-space:nowrap; position:relative;
+    border-bottom:2px solid transparent; transition:color .2s ease;
+  }
+  .tab-btn .idx{ color:var(--gold-dim); margin-right:8px; }
+  .tab-btn:hover{ color:var(--ivory); }
+  .tab-btn.active{ color:var(--gold); border-bottom-color:var(--gold); }
+  .tab-btn.active .idx{ color:var(--gold); }
+
+  .panels{ padding:64px 0 100px; min-height:70vh; }
+  .panel{ display:none; animation:fadeUp .5s ease; }
+  .panel.active{ display:block; }
+  @keyframes fadeUp{ from{ opacity:0; transform:translateY(14px); } to{ opacity:1; transform:translateY(0); } }
+
+  .panel-head{ margin-bottom:44px; }
+  .panel-title{ font-size:clamp(24px,3.6vw,34px); font-weight:600; margin-bottom:12px; }
+  .panel-title .accent{ color:var(--gold); }
+  .panel-sub{ color:var(--slate); max-width:620px; font-size:15.5px; }
+
+  /* ---------- Overview ---------- */
+  .about-lede{ font-size:clamp(18px,2.4vw,22px); color:var(--ivory); max-width:680px; margin-bottom:20px; }
+  .about-body{ color:var(--slate); max-width:680px; font-size:16px; }
+  .fact-row{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1px;
+    background:var(--line); border:1px solid var(--line); margin-top:44px;
+  }
+  .fact{ background:var(--bg); padding:22px 20px; }
+  .fact .num{ font-family:'Space Grotesk',sans-serif; font-size:26px; font-weight:600; color:var(--gold); display:block; }
+  .fact .lbl{ font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.06em; color:var(--slate-dim); margin-top:6px; display:block; }
+
+  .stack-preview{ display:flex; flex-wrap:wrap; gap:9px; margin-top:36px; }
+
+  /* ---------- Timeline ---------- */
+  .timeline{ position:relative; }
+  .timeline::before{ content:''; position:absolute; left:7px; top:8px; bottom:8px; width:1px; background:linear-gradient(var(--gold-dim), var(--line) 90%); }
+  .tl-item{ position:relative; padding-left:40px; padding-bottom:52px; }
+  .tl-item:last-child{ padding-bottom:0; }
+  .tl-item::before{ content:''; position:absolute; left:0; top:6px; width:15px; height:15px; border-radius:50%; background:var(--bg); border:2px solid var(--gold); }
+  .tl-item.current::before{ box-shadow:0 0 0 4px rgba(244,185,66,0.15), 0 0 12px 2px rgba(244,185,66,0.5); }
+  .tl-date{ font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--teal); display:block; margin-bottom:8px; letter-spacing:0.03em; }
+  .tl-role{ font-family:'Space Grotesk',sans-serif; font-size:19px; font-weight:600; margin-bottom:2px; }
+  .tl-org{ color:var(--slate); font-size:14px; margin-bottom:14px; font-family:'JetBrains Mono',monospace; }
+  .tl-list{ list-style:none; color:var(--slate); font-size:15px; max-width:640px; }
+  .tl-list li{ position:relative; padding-left:18px; margin-bottom:9px; }
+  .tl-list li::before{ content:'—'; position:absolute; left:0; top:0; color:var(--gold-dim); }
+
+  /* ---------- Projects grid ---------- */
+  .proj-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); }
+  .proj-card{ background:var(--bg); padding:26px 24px; display:flex; flex-direction:column; gap:12px; transition:background .2s ease; }
+  .proj-card:hover{ background:var(--card); }
+  .proj-tag{ font-family:'JetBrains Mono',monospace; font-size:10.5px; text-transform:uppercase; letter-spacing:0.07em; color:var(--teal); }
+  .proj-title{ font-family:'Space Grotesk',sans-serif; font-size:16.5px; font-weight:600; line-height:1.35; }
+  .proj-desc{ color:var(--slate); font-size:14px; flex:1; }
+  .proj-link{ font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--gold-dim); transition:color .2s ease; }
+  .proj-card:hover .proj-link{ color:var(--gold); }
+
+  .subsec{ margin-top:56px; }
+  .subsec-title{ font-family:'JetBrains Mono',monospace; font-size:12px; text-transform:uppercase; letter-spacing:0.08em; color:var(--slate-dim); margin-bottom:18px; }
+  .rlist{ list-style:none; display:flex; flex-direction:column; }
+  .rlist li{ border-bottom:1px solid var(--line); }
+  .rlist li:first-child{ border-top:1px solid var(--line); }
+  .rlink{ display:flex; justify-content:space-between; align-items:center; gap:20px; padding:14px 4px; transition:padding-left .2s ease, color .2s ease; }
+  .rlink:hover{ padding-left:10px; color:var(--gold); }
+  .rlink .rtitle{ font-size:14.5px; color:var(--ivory); max-width:560px; }
+  .rlink:hover .rtitle{ color:var(--gold); }
+  .rlink .ryear{ font-family:'JetBrains Mono',monospace; font-size:11.5px; color:var(--slate-dim); flex-shrink:0; }
+
+  /* ---------- Skills ---------- */
+  .skill-cols{ display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:36px; }
+  .skill-col h3{ font-size:13px; font-family:'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:0.08em; color:var(--slate-dim); margin-bottom:16px; font-weight:500; }
+  .tag-row{ display:flex; flex-wrap:wrap; gap:9px; }
+  .tag{ font-family:'JetBrains Mono',monospace; font-size:12.5px; padding:7px 12px; border:1px solid var(--line-hi); border-radius:2px; color:var(--ivory); transition:border-color .2s ease, color .2s ease, transform .15s ease; }
+  .tag:hover{ border-color:var(--gold); color:var(--gold); transform:translateY(-2px); }
+
+  /* ---------- Background (education/award) ---------- */
+  .edu-award{ display:grid; grid-template-columns:1.3fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); }
+  @media (max-width:760px){ .edu-award{ grid-template-columns:1fr; } }
+  .edu-award > div{ background:var(--bg); padding:32px 28px; }
+  .edu-item{ margin-bottom:26px; }
+  .edu-item:last-child{ margin-bottom:0; }
+  .edu-item .deg{ font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:16px; margin-bottom:3px; }
+  .edu-item .inst{ color:var(--slate); font-size:14px; margin-bottom:3px; }
+  .edu-item .yr{ font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--slate-dim); }
+  .award-block .gold-tag{
+    display:inline-block; font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.08em;
+    color:var(--gold); border:1px solid var(--gold-dim); padding:5px 10px; border-radius:2px; margin-bottom:16px;
+  }
+  .award-block .a-title{ font-family:'Space Grotesk',sans-serif; font-size:18px; font-weight:600; margin-bottom:10px; line-height:1.35; }
+  .award-block .a-body{ color:var(--slate); font-size:14.5px; }
+
+  /* ---------- Playground / game ---------- */
+  .game-shell{
+    border:1px solid var(--line-hi); background:var(--card); border-radius:6px; padding:26px;
+  }
+  .game-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:16px; flex-wrap:wrap; margin-bottom:18px; }
+  .game-instructions{ color:var(--slate); font-size:14.5px; max-width:520px; }
+  .game-stats{ display:flex; gap:22px; font-family:'JetBrains Mono',monospace; }
+  .game-stats .gs{ text-align:right; }
+  .game-stats .gs-val{ font-size:22px; color:var(--gold); font-weight:600; display:block; }
+  .game-stats .gs-lbl{ font-size:10.5px; color:var(--slate-dim); text-transform:uppercase; letter-spacing:0.06em; }
+  #gameCanvas{
+    width:100%; height:340px; display:block; border-radius:4px;
+    background:var(--bg-deep); border:1px solid var(--line); cursor:crosshair; touch-action:none;
+  }
+  .game-controls{ display:flex; justify-content:space-between; align-items:center; gap:14px; flex-wrap:wrap; margin-top:16px; }
+  .game-feedback{ font-family:'JetBrains Mono',monospace; font-size:13.5px; color:var(--teal); min-height:18px; }
+  .game-btns{ display:flex; gap:10px; }
+  .mini-btn{
+    font-family:'JetBrains Mono',monospace; font-size:12px; padding:9px 15px; border-radius:3px;
+    border:1px solid var(--line-hi); color:var(--ivory); transition:border-color .2s ease, color .2s ease;
+  }
+  .mini-btn:hover{ border-color:var(--gold); color:var(--gold); }
+  .mini-btn.primary{ background:var(--gold); color:var(--bg-deep); border-color:var(--gold); font-weight:500; }
+  .mini-btn.primary:hover{ background:#ffc862; }
+
+  /* ---------- Contact ---------- */
+  .contact-title{ font-size:clamp(28px,4.6vw,46px); font-weight:600; max-width:640px; margin-bottom:22px; }
+  .contact-title .accent{ color:var(--gold); }
+  .contact-sub{ color:var(--slate); max-width:480px; margin-bottom:32px; font-size:16px; }
+
+  footer{ border-top:1px solid var(--line); padding:32px 0 44px; }
+  .footer-row{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--slate-dim); }
+  .footer-row a{ color:var(--slate); transition:color .2s ease; }
+  .footer-row a:hover{ color:var(--gold); }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .scroll-cue .stem{ animation:none; }
+    .panel{ animation:none; }
+  }
+
+  ::-webkit-scrollbar{ width:9px; }
+  ::-webkit-scrollbar-track{ background:var(--bg-deep); }
+  ::-webkit-scrollbar-thumb{ background:var(--card-hi); border-radius:6px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-mark">TM<span>.</span></div>
+  <a href="#contact-panel-link" class="nav-cta" id="navContactBtn">Contact</a>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header class="hero">
+  <canvas id="nightlights"></canvas>
+  <div class="hero-veil"></div>
+  <div class="hero-content">
+    <div class="eyebrow mono">Colombo, Sri Lanka — Data Scientist</div>
+    <h1>Thashikala Mendis<br>finds <em>signal</em> in the noise.</h1>
+    <p>I build forecasting models, machine learning pipelines, and time-series systems — from LSTM networks and ensemble models to geospatial analysis and structural simulations.</p>
+    <div class="hero-actions">
+      <button class="btn btn-solid" data-goto="experience">Explore my work</button>
+      <button class="btn btn-ghost" data-goto="playground">Play a quick game →</button>
+    </div>
+  </div>
+  <div class="scroll-cue"><span>Scroll</span><span class="stem"></span></div>
+</header>
+
+<!-- ================= TAB APP ================= -->
+<div class="tabapp" id="tabapp">
+  <div class="tabbar">
+    <div class="tabbar-inner">
+      <button class="tab-btn active" data-tab="overview"><span class="idx mono">01</span>Overview</button>
+      <button class="tab-btn" data-tab="experience"><span class="idx mono">02</span>Experience</button>
+      <button class="tab-btn" data-tab="projects"><span class="idx mono">03</span>Projects</button>
+      <button class="tab-btn" data-tab="skills"><span class="idx mono">04</span>Skills</button>
+      <button class="tab-btn" data-tab="background"><span class="idx mono">05</span>Background</button>
+      <button class="tab-btn" data-tab="playground"><span class="idx mono">06</span>Playground 🎮</button>
+      <button class="tab-btn" data-tab="contact"><span class="idx mono">07</span>Contact</button>
+    </div>
+  </div>
+
+  <div class="panels wrap">
+
+    <!-- OVERVIEW -->
+    <div class="panel active" id="panel-overview">
+      <div class="panel-head">
+        <h2 class="panel-title">Overview</h2>
+        <p class="panel-sub">A quick read on what I do and how I got here.</p>
+      </div>
+      <p class="about-lede">A data scientist who likes turning messy, noisy datasets into models people can actually trust and act on.</p>
+      <p class="about-body">I currently build forecasting systems at a research unit in Colombo — combining machine learning (LSTM, XGBoost, ensemble methods) with structural simulation techniques to model macro-level time series. Before that, I worked across household survey data, trade data, and geospatial sources, and shipped everything from automated scraping pipelines to public dashboards. I'm most at home somewhere between statistics, code, and a genuinely interesting dataset.</p>
+      <div class="fact-row">
+        <div class="fact"><span class="num">4+</span><span class="lbl">Years in data science</span></div>
+        <div class="fact"><span class="num">10+</span><span class="lbl">Projects &amp; publications</span></div>
+        <div class="fact"><span class="num">8</span><span class="lbl">Languages &amp; tools</span></div>
+        <div class="fact"><span class="num">3</span><span class="lbl">Teams / organisations</span></div>
+      </div>
+      <div class="stack-preview">
+        <span class="tag">Python</span><span class="tag">R</span><span class="tag">SQL</span>
+        <span class="tag">Time Series</span><span class="tag">LSTM</span><span class="tag">XGBoost</span>
+        <span class="tag">Geospatial</span><span class="tag">Power BI</span>
+      </div>
+    </div>
+
+    <!-- EXPERIENCE -->
+    <div class="panel" id="panel-experience">
+      <div class="panel-head">
+        <h2 class="panel-title">Experience</h2>
+        <p class="panel-sub">Where I've built models and shipped analysis.</p>
+      </div>
+      <div class="timeline">
+
+        <div class="tl-item current">
+          <span class="tl-date">Apr 2026 — Present</span>
+          <div class="tl-role">Data Scientist</div>
+          <div class="tl-org">Research Unit, Commercial Bank of Ceylon · Colombo</div>
+          <ul class="tl-list">
+            <li>Leading development and maintenance of forecasting models using machine learning and statistical techniques.</li>
+            <li>Building and experimenting with structural simulation models, including scenario-based forecasting frameworks.</li>
+            <li>Designing scenario-based forecasts and simulations to assess the impact of external shocks.</li>
+            <li>Managing end-to-end data science workflows: preprocessing, time series modelling, evaluation, and forecasting.</li>
+            <li>Monitoring model performance and refining models for structural breaks and shifting data patterns.</li>
+          </ul>
+        </div>
+
+        <div class="tl-item">
+          <span class="tl-date">Nov 2024 — Mar 2026</span>
+          <div class="tl-role">Econometric Analyst</div>
+          <div class="tl-org">Research Unit, Commercial Bank of Ceylon · Colombo</div>
+          <ul class="tl-list">
+            <li>Designed and implemented ML models (LSTM, XGBoost, RNN) and ensemble/statistical models for time-series forecasting.</li>
+            <li>Analysed structural shocks and cyclical patterns using statistical and econometric methods.</li>
+            <li>Analysed geospatial data to uncover patterns and build custom indices.</li>
+            <li>Ran sentiment analysis pipelines to forecast policy decisions from text data.</li>
+          </ul>
+        </div>
+
+        <div class="tl-item">
+          <span class="tl-date">Oct 2021 — Oct 2024</span>
+          <div class="tl-role">Data Analyst</div>
+          <div class="tl-org">Research Team, Advocata Institute · Colombo</div>
+          <ul class="tl-list">
+            <li>Ran data analysis and visualisation to extract insights and identify trends across datasets.</li>
+            <li>Worked with large household survey, labour force, and trade datasets, alongside geospatial sources.</li>
+            <li>Built automated web scraping scripts to extract data from online sources.</li>
+            <li>Maintained data-driven web pages and supported the team on complex analysis tasks.</li>
+          </ul>
+        </div>
+
+        <div class="tl-item">
+          <span class="tl-date">Jul 2020 — Jan 2021</span>
+          <div class="tl-role">Data Intern</div>
+          <div class="tl-org">Sri Lanka Export Development Board · Colombo</div>
+          <ul class="tl-list">
+            <li>Cleaned and pre-processed data to ensure accuracy; ran exploratory analysis for trends and outliers.</li>
+            <li>Used Excel to analyse and manipulate large datasets for reporting, and built supporting visualisations.</li>
+            <li>Supported desk research and documentation of analysis processes and findings.</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PROJECTS -->
+    <div class="panel" id="panel-projects">
+      <div class="panel-head">
+        <h2 class="panel-title">Projects &amp; <span class="accent">Publications</span></h2>
+        <p class="panel-sub">Applied data science work — models, dashboards, and published analysis.</p>
+      </div>
+
+      <div class="proj-grid">
+        <a class="proj-card" href="https://www.advocata.org/media-archives/2025/07/23correlation-of-nighttime-lights-and-economic-indicators-in-sri-lanka" target="_blank" rel="noopener">
+          <span class="proj-tag">Geospatial · Remote Sensing</span>
+          <span class="proj-title">Correlating nighttime satellite lights with economic indicators</span>
+          <span class="proj-desc">Used VIIRS nighttime-lights imagery as a proxy signal, correlating luminosity patterns against ground-level indicators.</span>
+          <span class="proj-link">Read the analysis ↗</span>
+        </a>
+        <a class="proj-card" href="https://www.advocata.org/media-archives/2025/3/3/improving-electricity-consumption-based-targeting-for-social-protection-via-the-use-of-composite-variables" target="_blank" rel="noopener">
+          <span class="proj-tag">Feature Engineering</span>
+          <span class="proj-title">Composite variables for social protection targeting</span>
+          <span class="proj-desc">Built composite indicators from electricity consumption data to improve targeting accuracy for social protection programs.</span>
+          <span class="proj-link">Read the analysis ↗</span>
+        </a>
+        <a class="proj-card" href="https://tstdataviz.netlify.app/slides/individual_project/gap#overview" target="_blank" rel="noopener">
+          <span class="proj-tag">Dashboard · R</span>
+          <span class="proj-title">Flexdashboard for Gapminder data</span>
+          <span class="proj-desc">Interactive dashboard visualising global development indicators across countries and time.</span>
+          <span class="proj-link">Open dashboard ↗</span>
+        </a>
+        <a class="proj-card" href="https://tstdataviz.netlify.app/endproject/submission/as2016446" target="_blank" rel="noopener">
+          <span class="proj-tag">EDA</span>
+          <span class="proj-title">Consumer use of food label information</span>
+          <span class="proj-desc">Exploratory data analysis on how consumers engage with and act on nutrition and food labelling.</span>
+          <span class="proj-link">View project ↗</span>
+        </a>
+        <div class="proj-card" style="cursor:default;">
+          <span class="proj-tag">Time Series</span>
+          <span class="proj-title">Forecasting apparel &amp; textile exports under COVID-19</span>
+          <span class="proj-desc">Modelled the effect of COVID-19 disruption on Sri Lanka's apparel export industry. Abstract published, USJ Symposium Abstract Book, 2020.</span>
+          <span class="proj-link" style="color:var(--slate-dim);">Abstract publication</span>
+        </div>
+        <div class="proj-card" style="cursor:default;">
+          <span class="proj-tag">Data Collection · Index</span>
+          <span class="proj-title">Bath Curry Index</span>
+          <span class="proj-desc">Maintained a running index tracking the average weekly household spend on a meal in Sri Lanka.</span>
+          <span class="proj-link" style="color:var(--slate-dim);">Ongoing data project</span>
+        </div>
+        <div class="proj-card" style="cursor:default;">
+          <span class="proj-tag">EDA</span>
+          <span class="proj-title">COVID-19 situation analysis — Italy</span>
+          <span class="proj-desc">Exploratory data analysis identifying pandemic trends and patterns in early COVID-19 case data from Italy.</span>
+          <span class="proj-link" style="color:var(--slate-dim);">Independent project</span>
+        </div>
+        <div class="proj-card" style="cursor:default;">
+          <span class="proj-tag">Statistical Modelling</span>
+          <span class="proj-title">Tax incidence analysis</span>
+          <span class="proj-desc">Statistical modelling to estimate the distributional incidence of tax policy across income groups. Unpublished.</span>
+          <span class="proj-link" style="color:var(--slate-dim);">Unpublished</span>
+        </div>
+      </div>
+
+      <div class="subsec">
+        <div class="subsec-title">Writing &amp; Talks</div>
+        <ul class="rlist">
+          <li><a class="rlink" href="https://www.themorning.lk/articles/RPPoSJH0W2SWA9VN1yBv" target="_blank" rel="noopener"><span class="rtitle">A Path to Fiscal Stability and Economic Growth — Part 01</span><span class="ryear">2023</span></a></li>
+          <li><a class="rlink" href="https://www.dailymirror.lk/breakingnews/Reforming-tax-system-A-pathto-fiscal-stability-and-economicgrowth/108-269417" target="_blank" rel="noopener"><span class="rtitle">A Path to Fiscal Stability and Economic Growth — Part 02</span><span class="ryear">2023</span></a></li>
+          <li><a class="rlink" href="https://www.ft.lk/columns/Reformingthe-tax-incentive-structure-in-SriLanka/4-754432" target="_blank" rel="noopener"><span class="rtitle">Reforming the Tax Incentive Structure in Sri Lanka</span><span class="ryear">2023</span></a></li>
+          <li><a class="rlink" href="https://www.ft.lk/columns/Fiscal-consolidation-via-value-added-taxes-Opportunities-and-challenges/4-756010" target="_blank" rel="noopener"><span class="rtitle">Fiscal Consolidation via Value Added Tax</span><span class="ryear">2023</span></a></li>
+          <li><a class="rlink" href="https://www.youtube.com/watch?v=vINPoaGHrz0&ab_channel=AdvocataPlus" target="_blank" rel="noopener"><span class="rtitle">Session moderator — Taxes in Sri Lanka, Advocata Conference</span><span class="ryear">Video</span></a></li>
+          <li><a class="rlink" href="https://www.advocata.org/media-archives/2022/11/17/post-budget-2023-discussion" target="_blank" rel="noopener"><span class="rtitle">Post-Budget 2023 Discussion</span><span class="ryear">2022</span></a></li>
+          <li><a class="rlink" href="https://www.youtube.com/watch?v=4O1w9s9ALw0&ab_channel=AdvocataPlus" target="_blank" rel="noopener"><span class="rtitle">Explainer / presentation video</span><span class="ryear">Video</span></a></li>
+          <li><a class="rlink" href="https://www.tiktok.com/@advocataplus/video/7169872545754172698" target="_blank" rel="noopener"><span class="rtitle">Explainer clip — social media</span><span class="ryear">Video</span></a></li>
+          <li><span class="rlink" style="cursor:default;"><span class="rtitle">Working Paper on Sri Lanka's Tax System — Think Tank Capacity Building Project, University of South Carolina <span class="mono" style="color:var(--slate-dim);font-size:11.5px;">(unpublished)</span></span><span class="ryear">2022</span></span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SKILLS -->
+    <div class="panel" id="panel-skills">
+      <div class="panel-head">
+        <h2 class="panel-title">Skills &amp; Tools</h2>
+        <p class="panel-sub">What I build with, day to day.</p>
+      </div>
+      <div class="skill-cols">
+        <div class="skill-col">
+          <h3>Focus areas</h3>
+          <div class="tag-row">
+            <span class="tag">Time Series Forecasting</span>
+            <span class="tag">Machine Learning</span>
+            <span class="tag">Geospatial Analysis</span>
+            <span class="tag">Data Visualisation</span>
+            <span class="tag">Sentiment Analysis</span>
+          </div>
+        </div>
+        <div class="skill-col">
+          <h3>Languages</h3>
+          <div class="tag-row">
+            <span class="tag">Python</span>
+            <span class="tag">R</span>
+            <span class="tag">SQL</span>
+            <span class="tag">HTML</span>
+          </div>
+        </div>
+        <div class="skill-col">
+          <h3>Modelling &amp; ML</h3>
+          <div class="tag-row">
+            <span class="tag">LSTM</span>
+            <span class="tag">XGBoost</span>
+            <span class="tag">RNN</span>
+            <span class="tag">Ensemble Methods</span>
+            <span class="tag">Dynare</span>
+          </div>
+        </div>
+        <div class="skill-col">
+          <h3>Tools &amp; platforms</h3>
+          <div class="tag-row">
+            <span class="tag">RStudio</span>
+            <span class="tag">Visual Studio</span>
+            <span class="tag">Power BI</span>
+            <span class="tag">MATLAB</span>
+            <span class="tag">MINITAB</span>
+            <span class="tag">MAPLE</span>
+            <span class="tag">Excel</span>
+            <span class="tag">Google Earth Engine</span>
+            <span class="tag">GNU Octave</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BACKGROUND -->
+    <div class="panel" id="panel-background">
+      <div class="panel-head">
+        <h2 class="panel-title">Background</h2>
+        <p class="panel-sub">Education and recognition.</p>
+      </div>
+      <div class="edu-award">
+        <div class="edu-block">
+          <div class="edu-item">
+            <div class="deg">BSc (Hons) in Applied Sciences — Statistics</div>
+            <div class="inst">University of Sri Jayewardenepura (USJ) · Statistics, Mathematics &amp; Computer Science</div>
+            <div class="yr mono">2017 – 2021 · GPA 3.48 (2nd Upper)</div>
+          </div>
+          <div class="edu-item">
+            <div class="deg">Governing in the Digital Age</div>
+            <div class="inst">Australia Awards Short Course · Griffith University, Brisbane (online + in-person)</div>
+            <div class="yr mono">2024</div>
+          </div>
+          <div class="edu-item">
+            <div class="deg">Diploma in Information Technology with E-Commerce</div>
+            <div class="inst">ESoft Metro Campus</div>
+            <div class="yr mono">2016</div>
+          </div>
+        </div>
+        <div class="award-block">
+          <span class="gold-tag">Research Grant</span>
+          <div class="a-title">Gamani Corea Foundation Research Grant Award, 2025/2026</div>
+          <p class="a-body">For the research project <em>"Fiscal Policy for Inclusive Growth: Revisiting Tax Efficiency and Expenditure Multipliers in Sri Lanka."</em></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PLAYGROUND / GAME -->
+    <div class="panel" id="panel-playground">
+      <div class="panel-head">
+        <h2 class="panel-title">Playground <span class="accent">— Fit the Signal</span></h2>
+        <p class="panel-sub">A tiny regression game. Click and drag across the canvas to draw your best-fit line through the scattered points.</p>
+      </div>
+
+      <div class="game-shell">
+        <div class="game-top">
+          <p class="game-instructions">Drag from left to right to set your line's slope and intercept. Release to score. Try to beat your best R² — then reveal the true least-squares fit to see how close you got.</p>
+          <div class="game-stats">
+            <div class="gs"><span class="gs-val" id="statScore">—</span><span class="gs-lbl">Your R²</span></div>
+            <div class="gs"><span class="gs-val" id="statBest">—</span><span class="gs-lbl">Best R²</span></div>
+          </div>
+        </div>
+        <canvas id="gameCanvas"></canvas>
+        <div class="game-controls">
+          <div class="game-feedback" id="gameFeedback">Draw a line across the points to begin.</div>
+          <div class="game-btns">
+            <button class="mini-btn" id="revealBtn">Reveal optimal fit</button>
+            <button class="mini-btn primary" id="newDataBtn">New dataset</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTACT -->
+    <div class="panel" id="panel-contact">
+      <div class="panel-head">
+        <h2 class="panel-title">Contact</h2>
+        <p class="panel-sub">Let's talk data.</p>
+      </div>
+      <h3 class="contact-title">Working on forecasting, ML, or geospatial data? <span class="accent">Let's talk.</span></h3>
+      <p class="contact-sub">Open to research collaborations, data science roles, and interesting datasets.</p>
+      <div class="hero-actions">
+        <a href="https://www.linkedin.com/in/thashikala-mendis-ab91281b0" target="_blank" rel="noopener" class="btn btn-solid">Connect on LinkedIn ↗</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <div class="wrap footer-row">
+    <span>© <span id="year"></span> Thashikala Mendis</span>
+    <a href="https://www.linkedin.com/in/thashikala-mendis-ab91281b0" target="_blank" rel="noopener">linkedin.com/in/thashikala-mendis</a>
+  </div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* ---------------- Tab switching ---------------- */
+(function(){
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const panels = document.querySelectorAll('.panel');
+  const tabapp = document.getElementById('tabapp');
+
+  function activate(tabName, scrollIntoView){
+    tabBtns.forEach(b=> b.classList.toggle('active', b.dataset.tab === tabName));
+    panels.forEach(p=> p.classList.toggle('active', p.id === 'panel-'+tabName));
+    if(scrollIntoView){
+      tabapp.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+  }
+
+  tabBtns.forEach(btn=>{
+    btn.addEventListener('click', ()=> activate(btn.dataset.tab, false));
+  });
+
+  document.querySelectorAll('[data-goto]').forEach(el=>{
+    el.addEventListener('click', ()=> activate(el.dataset.goto, true));
+  });
+
+  document.getElementById('navContactBtn').addEventListener('click', (e)=>{
+    e.preventDefault();
+    activate('contact', true);
+  });
+})();
+
+/* ---------------- Nightlights hero canvas ---------------- */
+(function(){
+  const canvas = document.getElementById('nightlights');
+  const ctx = canvas.getContext('2d');
+  const hero = document.querySelector('.hero');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let W, H, DPR;
+  function resize(){
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    W = hero.clientWidth; H = hero.clientHeight;
+    canvas.width = W * DPR; canvas.height = H * DPR;
+    canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+    buildPoints();
+  }
+
+  function islandRadius(theta){
+    const base = 0.62 + 0.30 * Math.pow(Math.sin(theta/2 + Math.PI/2), 2);
+    const wobble = 0.05 * Math.sin(theta*3.1) + 0.03*Math.sin(theta*5.7+1);
+    return base + wobble;
+  }
+
+  let points = [], cityAnchors = [];
+
+  function buildPoints(){
+    points = [];
+    const cx = W*0.52, cy = H*0.5;
+    const rx = Math.min(W*0.30, H*0.42);
+    const ry = Math.min(H*0.46, rx*1.55);
+
+    const density = Math.floor((W*H)/2600);
+    for(let i=0;i<density;i++){
+      const theta = Math.random()*Math.PI*2;
+      const rMax = islandRadius(theta);
+      const rr = Math.sqrt(Math.random())*rMax;
+      const x = cx + Math.cos(theta)*rr*rx;
+      const y = cy + Math.sin(theta)*rr*ry*1.02 - ry*0.02;
+      points.push({ x, y, baseR: Math.random()*1.15+0.35, phase: Math.random()*Math.PI*2, speed: 0.4+Math.random()*0.9, baseAlpha: 0.25+Math.random()*0.55, warm: Math.random()<0.16 });
+    }
+    const ambientCount = Math.floor((W*H)/9000);
+    for(let i=0;i<ambientCount;i++){
+      points.push({ x: Math.random()*W, y: Math.random()*H, baseR: Math.random()*0.9+0.25, phase: Math.random()*Math.PI*2, speed: 0.3+Math.random()*0.6, baseAlpha: 0.08+Math.random()*0.22, warm:false, ambient:true });
+    }
+    cityAnchors = [];
+    for(let i=0;i<5;i++){
+      const theta = Math.random()*Math.PI*2;
+      const rMax = islandRadius(theta)*0.7;
+      const rr = Math.sqrt(Math.random())*rMax;
+      cityAnchors.push({ x: cx+Math.cos(theta)*rr*rx, y: cy+Math.sin(theta)*rr*ry*1.02-ry*0.02, r: 1.8+Math.random()*1.4, phase: Math.random()*Math.PI*2 });
+    }
+  }
+
+  let mouse = {x:-9999,y:-9999};
+  hero.addEventListener('mousemove', (e)=>{ const r=hero.getBoundingClientRect(); mouse.x=e.clientX-r.left; mouse.y=e.clientY-r.top; });
+  hero.addEventListener('mouseleave', ()=>{ mouse.x=-9999; mouse.y=-9999; });
+
+  let t = 0;
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    for(const p of points){
+      const flick = Math.sin(t*p.speed + p.phase);
+      let alpha = p.baseAlpha + flick*0.18, r = p.baseR;
+      const dx = p.x-mouse.x, dy = p.y-mouse.y, dist = Math.sqrt(dx*dx+dy*dy);
+      if(dist < 140){ const boost=(1-dist/140); alpha += boost*0.55; r += boost*1.1; }
+      alpha = Math.max(0, Math.min(1, alpha));
+      const color = p.warm ? `rgba(244,185,66,${alpha})` : (p.ambient ? `rgba(150,170,200,${alpha*0.7})` : `rgba(237,234,224,${alpha})`);
+      ctx.beginPath(); ctx.fillStyle = color; ctx.arc(p.x,p.y,r,0,Math.PI*2); ctx.fill();
+    }
+    for(const c of cityAnchors){
+      const flick = 0.7 + 0.3*Math.sin(t*0.8 + c.phase);
+      ctx.beginPath();
+      const grad = ctx.createRadialGradient(c.x,c.y,0,c.x,c.y,c.r*6);
+      grad.addColorStop(0, `rgba(244,185,66,${0.9*flick})`); grad.addColorStop(1, 'rgba(244,185,66,0)');
+      ctx.fillStyle = grad; ctx.arc(c.x,c.y,c.r*6,0,Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.fillStyle = `rgba(255,232,180,${flick})`; ctx.arc(c.x,c.y,c.r,0,Math.PI*2); ctx.fill();
+    }
+    t += 0.016;
+    if(!reduceMotion) requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', resize);
+  resize(); draw();
+  if(reduceMotion){ draw(); }
+})();
+
+/* ---------------- Playground: Fit the Signal (regression game) ---------------- */
+(function(){
+  const canvas = document.getElementById('gameCanvas');
+  const ctx = canvas.getContext('2d');
+  const statScore = document.getElementById('statScore');
+  const statBest = document.getElementById('statBest');
+  const feedback = document.getElementById('gameFeedback');
+  const revealBtn = document.getElementById('revealBtn');
+  const newDataBtn = document.getElementById('newDataBtn');
+
+  let W, H, DPR;
+  let dataPoints = [];
+  let userLine = null;      // {x0,y0,x1,y1}
+  let dragging = false, dragStart = null, dragCurrent = null;
+  let showOptimal = false;
+  let bestR2 = null;
+  let hasPlayedThisTab = false;
+
+  function resizeCanvas(){
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    const rect = canvas.getBoundingClientRect();
+    W = rect.width; H = rect.height || 340;
+    canvas.width = W*DPR; canvas.height = H*DPR;
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+    render();
+  }
+
+  function genDataset(){
+    dataPoints = [];
+    const n = 22;
+    const trueSlope = (Math.random()*1.6 - 0.8);
+    const trueIntercept = H*0.5 - trueSlope*(W*0.5) + (Math.random()*60-30);
+    const noiseAmp = H*0.16;
+    const margin = W*0.08;
+    for(let i=0;i<n;i++){
+      const x = margin + Math.random()*(W - margin*2);
+      const y = trueSlope*x + trueIntercept + (Math.random()*2-1)*noiseAmp;
+      dataPoints.push({x, y: Math.max(20, Math.min(H-20, y))});
+    }
+    userLine = null;
+    showOptimal = false;
+    statScore.textContent = '—';
+    feedback.textContent = 'Draw a line across the points to begin.';
+    render();
+  }
+
+  function computeR2(slope, intercept){
+    const ys = dataPoints.map(p=>p.y);
+    const meanY = ys.reduce((a,b)=>a+b,0)/ys.length;
+    let ssRes = 0, ssTot = 0;
+    for(const p of dataPoints){
+      const pred = slope*p.x + intercept;
+      ssRes += (p.y - pred)**2;
+      ssTot += (p.y - meanY)**2;
+    }
+    return ssTot === 0 ? 0 : Math.max(0, 1 - ssRes/ssTot);
+  }
+
+  function olsFit(){
+    const n = dataPoints.length;
+    let sumX=0,sumY=0,sumXY=0,sumXX=0;
+    for(const p of dataPoints){ sumX+=p.x; sumY+=p.y; sumXY+=p.x*p.y; sumXX+=p.x*p.x; }
+    const slope = (n*sumXY - sumX*sumY) / (n*sumXX - sumX*sumX);
+    const intercept = (sumY - slope*sumX)/n;
+    return {slope, intercept};
+  }
+
+  function lineFromPoints(x0,y0,x1,y1){
+    if(Math.abs(x1-x0) < 1) x1 = x0+1;
+    const slope = (y1-y0)/(x1-x0);
+    const intercept = y0 - slope*x0;
+    return {slope, intercept};
+  }
+
+  function feedbackFor(r2){
+    if(r2 >= 0.85) return "Excellent fit — you nailed the signal.";
+    if(r2 >= 0.6) return "Solid model. A little tuning left.";
+    if(r2 >= 0.3) return "Getting there — check your residuals.";
+    return "Mostly noise. Give it another try.";
+  }
+
+  function render(){
+    ctx.clearRect(0,0,W,H);
+
+    // grid
+    ctx.strokeStyle = 'rgba(237,234,224,0.045)';
+    ctx.lineWidth = 1;
+    for(let gx=0; gx<W; gx+=40){ ctx.beginPath(); ctx.moveTo(gx,0); ctx.lineTo(gx,H); ctx.stroke(); }
+    for(let gy=0; gy<H; gy+=40){ ctx.beginPath(); ctx.moveTo(0,gy); ctx.lineTo(W,gy); ctx.stroke(); }
+
+    // optimal fit line
+    if(showOptimal){
+      const {slope, intercept} = olsFit();
+      ctx.beginPath();
+      ctx.strokeStyle = 'rgba(79,209,197,0.9)';
+      ctx.lineWidth = 2;
+      ctx.setLineDash([5,5]);
+      ctx.moveTo(0, slope*0 + intercept);
+      ctx.lineTo(W, slope*W + intercept);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    // data points
+    for(const p of dataPoints){
+      ctx.beginPath();
+      ctx.fillStyle = '#EDEAE0';
+      ctx.arc(p.x, p.y, 4, 0, Math.PI*2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.strokeStyle = 'rgba(244,185,66,0.35)';
+      ctx.lineWidth = 1;
+      ctx.arc(p.x, p.y, 6.5, 0, Math.PI*2);
+      ctx.stroke();
+    }
+
+    // preview line while dragging
+    if(dragging && dragStart && dragCurrent){
+      drawUserLine(dragStart.x, dragStart.y, dragCurrent.x, dragCurrent.y, 0.55);
+    } else if(userLine){
+      drawUserLine(userLine.x0, userLine.y0, userLine.x1, userLine.y1, 1);
+    }
+  }
+
+  function drawUserLine(x0,y0,x1,y1, alpha){
+    const {slope, intercept} = lineFromPoints(x0,y0,x1,y1);
+    ctx.beginPath();
+    ctx.strokeStyle = `rgba(244,185,66,${alpha})`;
+    ctx.lineWidth = 2.5;
+    ctx.moveTo(0, slope*0 + intercept);
+    ctx.lineTo(W, slope*W + intercept);
+    ctx.stroke();
+  }
+
+  function pointerPos(e){
+    const rect = canvas.getBoundingClientRect();
+    const cx = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+    const cy = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+    return {x:cx, y:cy};
+  }
+
+  canvas.addEventListener('mousedown', (e)=>{ dragging=true; dragStart=pointerPos(e); dragCurrent=dragStart; render(); });
+  canvas.addEventListener('mousemove', (e)=>{ if(dragging){ dragCurrent=pointerPos(e); render(); } });
+  window.addEventListener('mouseup', (e)=>{
+    if(!dragging) return;
+    dragging = false;
+    dragCurrent = pointerPos(e.changedTouches ? e : e);
+    finalizeLine();
+  });
+
+  canvas.addEventListener('touchstart', (e)=>{ dragging=true; dragStart=pointerPos(e); dragCurrent=dragStart; render(); }, {passive:true});
+  canvas.addEventListener('touchmove', (e)=>{ if(dragging){ dragCurrent=pointerPos(e); render(); } }, {passive:true});
+  canvas.addEventListener('touchend', ()=>{ if(!dragging) return; dragging=false; finalizeLine(); });
+
+  function finalizeLine(){
+    if(!dragStart || !dragCurrent) return;
+    userLine = {x0:dragStart.x, y0:dragStart.y, x1:dragCurrent.x, y1:dragCurrent.y};
+    const {slope, intercept} = lineFromPoints(userLine.x0, userLine.y0, userLine.x1, userLine.y1);
+    const r2 = computeR2(slope, intercept);
+    statScore.textContent = (r2*100).toFixed(1)+'%';
+    if(bestR2 === null || r2 > bestR2){
+      bestR2 = r2;
+      statBest.textContent = (bestR2*100).toFixed(1)+'%';
+    }
+    feedback.textContent = feedbackFor(r2);
+    render();
+  }
+
+  revealBtn.addEventListener('click', ()=>{ showOptimal = !showOptimal; revealBtn.textContent = showOptimal ? 'Hide optimal fit' : 'Reveal optimal fit'; render(); });
+  newDataBtn.addEventListener('click', genDataset);
+
+  window.addEventListener('resize', resizeCanvas);
+
+  // Init once the playground tab becomes visible for the first time (canvas needs layout)
+  const playgroundTabBtn = document.querySelector('.tab-btn[data-tab="playground"]');
+  function initIfNeeded(){
+    if(hasPlayedThisTab) return;
+    hasPlayedThisTab = true;
+    setTimeout(()=>{ resizeCanvas(); genDataset(); }, 50);
+  }
+  playgroundTabBtn.addEventListener('click', initIfNeeded);
+  document.querySelectorAll('[data-goto="playground"]').forEach(el=> el.addEventListener('click', initIfNeeded));
+})();
+</script>
+
+</body>
+</html>
